@@ -1,1 +1,1 @@
-// types
+export interface IBook {}
