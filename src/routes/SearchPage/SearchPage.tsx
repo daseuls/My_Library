@@ -27,7 +27,7 @@ const SearchPage = () => {
   return (
     <Wrapper>
       <SearchForm onSubmit={onSubmitForm}>
-        <Input name="title" placeholder="찾고 싶은 책을 검색하세요 !" />
+        <Input name="title" placeholder="서재에 등록하고 싶은 책을 검색하세요 !" />
         <ListWrapper>
           {data?.data.documents.map((book: IBookItem) => (
             <BookItem key={book.isbn} item={book} />
@@ -64,6 +64,6 @@ const Input = styled.input`
 `;
 
 const ListWrapper = styled.ul`
-  background-color: yellow;
+  /* background-color: yellow; */
   margin: 2rem 0;
 `;
