@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, Dispatch } from "react";
 import styled from "styled-components";
 
 interface IProps {
   children: JSX.Element | null;
+  setIsDatePickerVisible: Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal = ({ children }: IProps) => {
+const Modal = ({ children, setIsDatePickerVisible }: IProps) => {
   const onClickModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    setIsDatePickerVisible(false);
   };
 
   return (
