@@ -9,8 +9,8 @@ const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
   const { data, isLoading } = useQuery(["book", keyword], () => getBookList(keyword, "accuracy"), {
     enabled: !!keyword,
-    refetchOnWindowFocus: false,
-    staleTime: 10000,
+    // refetchOnWindowFocus: false,
+    // staleTime: 10000,
   });
 
   console.log(data?.data.documents);

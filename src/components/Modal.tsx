@@ -1,4 +1,4 @@
-import { useState, Dispatch } from "react";
+import { Dispatch } from "react";
 import styled from "styled-components";
 
 interface IProps {

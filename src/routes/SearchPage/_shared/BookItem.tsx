@@ -31,10 +31,9 @@ const BookItem = ({ item }: IProps) => {
     setIsOpen((prev) => !prev);
   };
 
-  console.log(date);
-
   const onClickAddBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+
     setIsDatePickerVisible((prev) => !prev);
   };
 
@@ -43,7 +42,10 @@ const BookItem = ({ item }: IProps) => {
     setDate({ startDate: start, endDate: end });
   };
 
-  console.log(date);
+  const onClickSaveBtn = () => {
+    if (!date.endDate) return;
+    localStorage.setItem("library", JSON.stringify([{ ...item, ...date }]));
+  };
 
   return (
     <>
@@ -57,7 +59,7 @@ const BookItem = ({ item }: IProps) => {
               ))}
               <AddLibraryBtn onClick={onClickAddBtn}>아이콘</AddLibraryBtn>
               <StartDate>{String(date.startDate)}</StartDate>
-              <StartDate>{String(date.endDate)}</StartDate>
+              <EndDate>{String(date.endDate)}</EndDate>
 
               {isDatePickerVisible && (
                 <PickerWrapper onClick={(e) => e.stopPropagation()}>
@@ -72,6 +74,7 @@ const BookItem = ({ item }: IProps) => {
                   />
                 </PickerWrapper>
               )}
+              <SaveBtn onClick={onClickSaveBtn}>저장하기</SaveBtn>
             </>
           </Modal>
         </ModalWrapper>
@@ -124,3 +127,4 @@ const PickerWrapper = styled.div``;
 
 const StartDate = styled.div``;
 const EndDate = styled.div``;
+const SaveBtn = styled.button``;
