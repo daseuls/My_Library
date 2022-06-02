@@ -4,17 +4,26 @@ import styled from "styled-components";
 import { useState, ChangeEvent, FormEvent, FormEventHandler, useEffect } from "react";
 import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
+import { useSetRecoilState } from "recoil";
+import { libraryBookListState } from "../../states/state";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
   const [inputValaue, setInputValue] = useState("");
-  const { data, isLoading } = useQuery(["book", keyword], () => getBookList(keyword, "accuracy"), {
+  const setLibraryBookList = useSetRecoilState(libraryBookListState);
+
+  const { data } = useQuery(["book", keyword], () => getBookList(keyword, "accuracy"), {
     enabled: !!keyword,
     refetchOnWindowFocus: false,
     staleTime: 10000,
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const localData = localStorage.getItem("library");
+    if (localData) {
+      setLibraryBookList(JSON.parse(localData));
+    }
+  }, [setLibraryBookList]);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);

@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { libraryBookListState } from "../../../states/state";
 import { IBookItem } from "../../../types";
 import { AiTwotoneCalendar } from "react-icons/ai";
+import { RiBookFill, RiBookLine } from "react-icons/ri";
 
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
@@ -72,10 +73,27 @@ const ModalContents = ({ bookItem }: IProps) => {
           ))}
         </TitleWrapper>
       </BookInfoWrapper>
-      <SaveHandleBtn onClick={handleRemoveBookItem}>내 서재에 추가하기</SaveHandleBtn>
+      {isAddedLibrary ? (
+        <div>
+          <RiBookFill size={20} />
+          <SaveHandleBtn onClick={handleRemoveBookItem}>내 서재에서 삭제하기</SaveHandleBtn>
+        </div>
+      ) : (
+        <div>
+          <RiBookLine size={20} />
+          <SaveHandleBtn onClick={handleRemoveBookItem}>내 서재에 추가하기</SaveHandleBtn>
+        </div>
+      )}
 
       {isDatePickerOpen && (
         <PickerWrapper onClick={(e) => e.stopPropagation()}>
+          <DateWrapper>
+            <DatePickerIcon onClick={onClickAddBtn}>
+              <AiTwotoneCalendar size={14} color="#3366FF" />
+            </DatePickerIcon>
+            <StartDate>{dayjs(date.startDate).format("YYYY년 MM월 DD일")}</StartDate>
+            <EndDate>{dayjs(date.endDate).format("YYYY년 MM월 DD일")}</EndDate>
+          </DateWrapper>
           <DatePicker
             selected={date.startDate}
             onChange={onChangeDate}
@@ -85,13 +103,6 @@ const ModalContents = ({ bookItem }: IProps) => {
             selectsRange
             inline
           />
-          <DateWrapper>
-            <DatePickerIcon onClick={onClickAddBtn}>
-              <AiTwotoneCalendar size={14} color="#3366FF" />
-            </DatePickerIcon>
-            <StartDate>{dayjs(date.startDate).format("YYYY-MM-DD")}</StartDate>
-            <EndDate>{dayjs(date.endDate).format("YYYY년 MM월 DD일")}</EndDate>
-          </DateWrapper>
         </PickerWrapper>
       )}
     </Wrapper>
