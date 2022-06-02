@@ -66,8 +66,9 @@ const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 87%;
   overflow: auto;
+  padding: 2rem 3rem 0;
 `;
 
 const SearchForm = styled.form`
