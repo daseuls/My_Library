@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { useState, ChangeEvent, FormEvent, FormEventHandler, useEffect } from "react";
 import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { libraryBookListState, wishListState } from "../../states/state";
+import { useNavigate } from "react-router-dom";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
@@ -18,6 +19,8 @@ const SearchPage = () => {
     refetchOnWindowFocus: false,
     staleTime: 10000,
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const localLibraryData = localStorage.getItem("library");
@@ -49,6 +52,9 @@ const SearchPage = () => {
         {data?.data.documents.map((bookItem: IBookItem) => (
           <BookItem key={bookItem.isbn} bookItem={bookItem} />
         ))}
+        <button onClick={() => navigate("/library")} type="button">
+          버튼
+        </button>
       </ListWrapper>
     </Wrapper>
   );

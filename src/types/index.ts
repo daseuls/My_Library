@@ -3,6 +3,8 @@ export interface IBookItem {
   title: string;
   thumbnail: string;
   authors: string[];
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface IParams {
