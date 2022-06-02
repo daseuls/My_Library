@@ -17,7 +17,8 @@ const GlobalStyle = createGlobalStyle`
   align-items:center;
   height:100vh;
   font-size: 10px;
-  font-family: "InterBold"
+  font-family: "InterBold";
+  background-color: #F6F7F8;
   }
   
 
