@@ -44,10 +44,12 @@ export default BookItem;
 
 const Wrapper = styled.div`
   cursor: pointer;
+  margin-bottom: 1rem;
+  border: 1px solid black;
 `;
 
 const Thumbnail = styled.img`
-  width: 40px;
+  width: 9rem;
 `;
 
 const ModalOutside = styled.div`

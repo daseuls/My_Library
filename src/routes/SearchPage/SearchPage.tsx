@@ -81,6 +81,9 @@ const Input = styled.input`
 
 const ListWrapper = styled.ul`
   /* background-color: yellow; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   margin: 2rem 0;
 `;
 
