@@ -10,9 +10,7 @@ interface IProps {
 }
 
 // TODO: isAddedLibrary에 따른 버튼 스타일링
-// TODO: endDay가 없을때 버튼 비활성화하기, 모달껐을때 date저장 안되도록
 // TODO: 함수명, 변수명 직관적으로 바꾸기
-// TODO: 첫렌더링때 검색후 안나오는 오류 해결
 
 const BookItem = ({ bookItem }: IProps) => {
   const { thumbnail } = bookItem;

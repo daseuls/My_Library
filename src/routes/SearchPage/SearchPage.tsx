@@ -1,39 +1,40 @@
 import { useQuery } from "react-query";
 import { getBookList } from "../../services/fetchData";
 import styled from "styled-components";
-import { useState, ChangeEvent, FormEvent, FormEventHandler } from "react";
+import { useState, ChangeEvent, FormEvent, FormEventHandler, useEffect } from "react";
 import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
+  const [inputValaue, setInputValue] = useState("");
   const { data, isLoading } = useQuery(["book", keyword], () => getBookList(keyword, "accuracy"), {
     enabled: !!keyword,
-    // refetchOnWindowFocus: false,
-    // staleTime: 10000,
+    refetchOnWindowFocus: false,
+    staleTime: 10000,
   });
 
-  console.log(data?.data.documents);
+  useEffect(() => {}, []);
+
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.currentTarget.value);
+  };
 
   const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setKeyword((e.currentTarget[0] as HTMLInputElement).value);
+    setKeyword(inputValaue);
   };
-
-  if (isLoading) {
-    return <div>로딩중</div>;
-  }
 
   return (
     <Wrapper>
       <SearchForm onSubmit={onSubmitForm}>
-        <Input name="title" placeholder="서재에 등록하고 싶은 책을 검색하세요 !" />
-        <ListWrapper>
-          {data?.data.documents.map((bookItem: IBookItem) => (
-            <BookItem key={bookItem.isbn} bookItem={bookItem} />
-          ))}
-        </ListWrapper>
+        <Input onChange={onChangeInput} name="title" placeholder="서재에 등록하고 싶은 책을 검색하세요 !" />
       </SearchForm>
+      <ListWrapper>
+        {data?.data.documents.map((bookItem: IBookItem) => (
+          <BookItem key={bookItem.isbn} bookItem={bookItem} />
+        ))}
+      </ListWrapper>
     </Wrapper>
   );
 };
@@ -67,3 +68,5 @@ const ListWrapper = styled.ul`
   /* background-color: yellow; */
   margin: 2rem 0;
 `;
+
+const SubmitBtn = styled.button``;

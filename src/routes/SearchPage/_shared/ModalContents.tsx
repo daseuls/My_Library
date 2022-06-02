@@ -31,18 +31,16 @@ const ModalContents = ({ bookItem }: IProps) => {
   const onChangeDate = (dates: any) => {
     const [start, end] = dates;
     setDate({ startDate: start, endDate: end });
-  };
 
-  const handleBookListInLibrary = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
-    if (!date.endDate) return;
+    if (!end) return;
     if (isAddedLibrary) {
-      const filteredList = libraryBookList.filter((el) => el.isbn !== bookItem.isbn);
-      localStorage.setItem("library", JSON.stringify(filteredList));
-      setLibraryBookList(filteredList);
+      const changedDateItem = libraryBookList.map((el) =>
+        el.isbn === bookItem.isbn ? { ...el, startDate: start, endDate: end } : el
+      );
+      localStorage.setItem("library", JSON.stringify(changedDateItem));
+      setLibraryBookList(changedDateItem);
     } else {
-      const addedList = [...libraryBookList, { ...bookItem, ...date }];
+      const addedList = [...libraryBookList, { ...bookItem, ...{ startDate: start, endDate: end } }];
       localStorage.setItem("library", JSON.stringify(addedList));
       setLibraryBookList(addedList);
     }
@@ -50,6 +48,17 @@ const ModalContents = ({ bookItem }: IProps) => {
 
   const handleCloseDatePicker = () => {
     setIsDatePickerOpen(false);
+  };
+
+  const handleRemoveBookItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (isAddedLibrary) {
+      const filteredList = libraryBookList.filter((el) => el.isbn !== bookItem.isbn);
+      localStorage.setItem("library", JSON.stringify(filteredList));
+      setLibraryBookList(filteredList);
+    } else {
+      setIsDatePickerOpen(true);
+    }
   };
 
   return (
@@ -63,15 +72,7 @@ const ModalContents = ({ bookItem }: IProps) => {
           ))}
         </TitleWrapper>
       </BookInfoWrapper>
-      <SaveHandleBtn onClick={handleBookListInLibrary}>내 서재에 추가하기</SaveHandleBtn>
-
-      <DateWrapper>
-        <DatePickerIcon onClick={onClickAddBtn}>
-          <AiTwotoneCalendar size={14} color="#3366FF" />
-        </DatePickerIcon>
-        <StartDate>{dayjs(date.startDate).format("YYYY-MM-DD")}</StartDate>
-        <EndDate>{dayjs(date.endDate).format("YYYY년 MM월 DD일")}</EndDate>
-      </DateWrapper>
+      <SaveHandleBtn onClick={handleRemoveBookItem}>내 서재에 추가하기</SaveHandleBtn>
 
       {isDatePickerOpen && (
         <PickerWrapper onClick={(e) => e.stopPropagation()}>
@@ -84,6 +85,13 @@ const ModalContents = ({ bookItem }: IProps) => {
             selectsRange
             inline
           />
+          <DateWrapper>
+            <DatePickerIcon onClick={onClickAddBtn}>
+              <AiTwotoneCalendar size={14} color="#3366FF" />
+            </DatePickerIcon>
+            <StartDate>{dayjs(date.startDate).format("YYYY-MM-DD")}</StartDate>
+            <EndDate>{dayjs(date.endDate).format("YYYY년 MM월 DD일")}</EndDate>
+          </DateWrapper>
         </PickerWrapper>
       )}
     </Wrapper>
