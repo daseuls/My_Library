@@ -11,6 +11,7 @@ export const getBookList = (query: string, sort: string) => {
       query,
       sort,
       size: 15,
+      page: 2,
     },
   });
 };
