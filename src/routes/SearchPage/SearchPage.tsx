@@ -5,12 +5,13 @@ import { useState, ChangeEvent, FormEvent, FormEventHandler, useEffect } from "r
 import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
 import { useSetRecoilState } from "recoil";
-import { libraryBookListState } from "../../states/state";
+import { libraryBookListState, wishListState } from "../../states/state";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
   const [inputValaue, setInputValue] = useState("");
   const setLibraryBookList = useSetRecoilState(libraryBookListState);
+  const setWishList = useSetRecoilState(wishListState);
 
   const { data } = useQuery(["book", keyword], () => getBookList(keyword, "accuracy"), {
     enabled: !!keyword,
@@ -19,11 +20,16 @@ const SearchPage = () => {
   });
 
   useEffect(() => {
-    const localData = localStorage.getItem("library");
-    if (localData) {
-      setLibraryBookList(JSON.parse(localData));
+    const localLibraryData = localStorage.getItem("library");
+    const localWishListData = localStorage.getItem("wish");
+
+    if (localLibraryData) {
+      setLibraryBookList(JSON.parse(localLibraryData));
     }
-  }, [setLibraryBookList]);
+    if (localWishListData) {
+      setWishList(JSON.parse(localWishListData));
+    }
+  }, [setLibraryBookList, setWishList]);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
