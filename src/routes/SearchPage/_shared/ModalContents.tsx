@@ -5,24 +5,27 @@ import { ko } from "date-fns/esm/locale";
 import { useRecoilState } from "recoil";
 import { libraryBookListState } from "../../../states/state";
 import { IBookItem } from "../../../types";
+import { AiTwotoneCalendar } from "react-icons/ai";
 
 import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
 
 interface IProps {
   bookItem: IBookItem;
 }
+
 const ModalContents = ({ bookItem }: IProps) => {
   const { title, thumbnail, authors } = bookItem;
 
   const [date, setDate] = useState({ startDate: new Date(), endDate: null });
   const [libraryBookList, setLibraryBookList] = useRecoilState(libraryBookListState);
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const isAddedLibrary = libraryBookList.map((el) => el.isbn).includes(bookItem.isbn);
 
   const onClickAddBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    setIsDatePickerVisible((prev) => !prev);
+    setIsDatePickerOpen((prev) => !prev);
   };
 
   const onChangeDate = (dates: any) => {
@@ -30,7 +33,7 @@ const ModalContents = ({ bookItem }: IProps) => {
     setDate({ startDate: start, endDate: end });
   };
 
-  const onClickSaveBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleBookListInLibrary = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
     if (!date.endDate) return;
@@ -45,17 +48,32 @@ const ModalContents = ({ bookItem }: IProps) => {
     }
   };
 
-  return (
-    <>
-      <BookTitle>{title}</BookTitle>
-      {authors?.map((author, i) => (
-        <BookDesc key={`${author}${i}`}>{author}</BookDesc>
-      ))}
-      <AddLibraryBtn onClick={onClickAddBtn}>아이콘</AddLibraryBtn>
-      <StartDate>{String(date.startDate)}</StartDate>
-      <EndDate>{String(date.endDate)}</EndDate>
+  const handleCloseDatePicker = () => {
+    setIsDatePickerOpen(false);
+  };
 
-      {isDatePickerVisible && (
+  return (
+    <Wrapper onClick={handleCloseDatePicker}>
+      <BookInfoWrapper>
+        <Thumbnail src={thumbnail} />
+        <TitleWrapper>
+          <Title>{title}</Title>
+          {authors?.map((author, i) => (
+            <Author key={`${author}${i}`}>{author}</Author>
+          ))}
+        </TitleWrapper>
+      </BookInfoWrapper>
+      <SaveHandleBtn onClick={handleBookListInLibrary}>내 서재에 추가하기</SaveHandleBtn>
+
+      <DateWrapper>
+        <DatePickerIcon onClick={onClickAddBtn}>
+          <AiTwotoneCalendar size={14} color="#3366FF" />
+        </DatePickerIcon>
+        <StartDate>{dayjs(date.startDate).format("YYYY-MM-DD")}</StartDate>
+        <EndDate>{dayjs(date.endDate).format("YYYY년 MM월 DD일")}</EndDate>
+      </DateWrapper>
+
+      {isDatePickerOpen && (
         <PickerWrapper onClick={(e) => e.stopPropagation()}>
           <DatePicker
             selected={date.startDate}
@@ -68,21 +86,54 @@ const ModalContents = ({ bookItem }: IProps) => {
           />
         </PickerWrapper>
       )}
-      <SaveBtn onClick={onClickSaveBtn}>저장하기</SaveBtn>
-    </>
+    </Wrapper>
   );
 };
 export default ModalContents;
 
-const BookTitle = styled.p``;
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+`;
 
-const BookDesc = styled.p``;
-const AddBtn = styled.button``;
+const Thumbnail = styled.img`
+  width: 7rem;
+  margin-right: 1rem;
+`;
 
-const AddLibraryBtn = styled.button``;
+const BookInfoWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+const TitleWrapper = styled.div``;
+const Title = styled.p`
+  margin-bottom: 1rem;
+`;
+
+const Author = styled.p``;
+
+const DatePickerIcon = styled.button``;
 
 const PickerWrapper = styled.div``;
 
-const StartDate = styled.div``;
-const EndDate = styled.div``;
-const SaveBtn = styled.button``;
+const StartDate = styled.p`
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 2rem;
+  margin: 0 1rem;
+`;
+const EndDate = styled.p`
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 2rem;
+`;
+const SaveHandleBtn = styled.button``;
+
+const DateWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;

@@ -21,6 +21,6 @@ const Wrapper = styled.div``;
 
 const ModalWrapper = styled.div`
   background-color: yellow;
-  width: 20rem;
-  height: 30rem;
+  width: 25rem;
+  height: 35rem;
 `;
