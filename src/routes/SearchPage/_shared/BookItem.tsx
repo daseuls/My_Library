@@ -2,21 +2,22 @@ import { IBookItem } from "../../../types";
 import styled from "styled-components";
 import Modal from "../../../components/Modal";
 import { useState } from "react";
-import DatePicker from "react-datepicker";
-import { ko } from "date-fns/esm/locale";
 
-import "react-datepicker/dist/react-datepicker.css";
+import ModalContents from "./ModalContents";
 
 interface IProps {
-  item: IBookItem;
+  bookItem: IBookItem;
 }
 
-const BookItem = ({ item }: IProps) => {
-  const { title, thumbnail } = item;
+// TODO: isAddedLibrary에 따른 버튼 스타일링
+// TODO: endDay가 없을때 버튼 비활성화하기, 모달껐을때 date저장 안되도록
+// TODO: 함수명, 변수명 직관적으로 바꾸기
+// TODO: 컴포넌트 나눌수있는것 최대한 나누기
+// TODO: 첫렌더링때 검색후 안나오는 오류 해결
+
+const BookItem = ({ bookItem }: IProps) => {
+  const { thumbnail } = bookItem;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
-  const [date, setDate] = useState({ startDate: new Date(), endDate: null });
 
   const handleModal = () => {
     setIsModalOpen(true);
@@ -24,91 +25,35 @@ const BookItem = ({ item }: IProps) => {
 
   const onClickModal = () => {
     setIsModalOpen(false);
-    setIsDatePickerVisible(false);
-  };
-
-  const handleOpen = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const onClickAddBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
-    setIsDatePickerVisible((prev) => !prev);
-  };
-
-  const onChangeDate = (dates: any) => {
-    const [start, end] = dates;
-    setDate({ startDate: start, endDate: end });
-  };
-
-  const onClickSaveBtn = () => {
-    if (!date.endDate) return;
-    localStorage.setItem("library", JSON.stringify([{ ...item, ...date }]));
   };
 
   return (
     <>
       {isModalOpen && (
-        <ModalWrapper onClick={onClickModal}>
-          <Modal setIsDatePickerVisible={setIsDatePickerVisible}>
-            <>
-              <BookTitle>{item.title}</BookTitle>
-              {item.authors?.map((author, i) => (
-                <BookDesc key={`${author}${i}`}>{author}</BookDesc>
-              ))}
-              <AddLibraryBtn onClick={onClickAddBtn}>아이콘</AddLibraryBtn>
-              <StartDate>{String(date.startDate)}</StartDate>
-              <EndDate>{String(date.endDate)}</EndDate>
-
-              {isDatePickerVisible && (
-                <PickerWrapper onClick={(e) => e.stopPropagation()}>
-                  <DatePicker
-                    selected={date.startDate}
-                    onChange={onChangeDate}
-                    startDate={date.startDate}
-                    endDate={date.endDate}
-                    locale={ko}
-                    selectsRange
-                    inline
-                  />
-                </PickerWrapper>
-              )}
-              <SaveBtn onClick={onClickSaveBtn}>저장하기</SaveBtn>
-            </>
+        <ModalOutside onClick={onClickModal}>
+          <Modal>
+            <ModalContents bookItem={bookItem} />
           </Modal>
-        </ModalWrapper>
+        </ModalOutside>
       )}
-      <Wrapper onClick={handleOpen}>
-        <Thumbnail src={thumbnail} />
+      <Wrapper onClick={handleModal}>
+        <Thumbnail src={thumbnail} alt="bookThumbnail" />
       </Wrapper>
-      {isOpen && (
-        <div>
-          <Title>{title}</Title>
-          <AddBtn onClick={handleModal}>서재에 추가하기</AddBtn>
-        </div>
-      )}
     </>
   );
 };
 
 export default BookItem;
 
-const Wrapper = styled.li`
+const Wrapper = styled.div`
   cursor: pointer;
 `;
-
-const Title = styled.p``;
 
 const Thumbnail = styled.img`
   width: 40px;
 `;
 
-const BookTitle = styled.p``;
-
-const BookDesc = styled.p``;
-
-const ModalWrapper = styled.div`
+const ModalOutside = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,13 +63,3 @@ const ModalWrapper = styled.div`
   width: 100%;
   height: 100%;
 `;
-
-const AddBtn = styled.button``;
-
-const AddLibraryBtn = styled.button``;
-
-const PickerWrapper = styled.div``;
-
-const StartDate = styled.div``;
-const EndDate = styled.div``;
-const SaveBtn = styled.button``;

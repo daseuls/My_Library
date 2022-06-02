@@ -29,8 +29,8 @@ const SearchPage = () => {
       <SearchForm onSubmit={onSubmitForm}>
         <Input name="title" placeholder="서재에 등록하고 싶은 책을 검색하세요 !" />
         <ListWrapper>
-          {data?.data.documents.map((book: IBookItem) => (
-            <BookItem key={book.isbn} item={book} />
+          {data?.data.documents.map((bookItem: IBookItem) => (
+            <BookItem key={bookItem.isbn} bookItem={bookItem} />
           ))}
         </ListWrapper>
       </SearchForm>
