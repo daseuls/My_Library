@@ -42,13 +42,19 @@ const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   height: 87%;
   overflow: auto;
-  padding: 2rem 3rem 0;
+  margin: 2rem 1rem 0.5rem;
+
+  border-bottom-right-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+
+  background-color: white;
 `;
 
 const CategoryWrapper = styled.div`
+  border-top-right-radius: 3rem;
+
   display: flex;
   width: 100%;
   justify-content: space-around;
@@ -60,4 +66,6 @@ const Category = styled.div`
   background-color: yellow;
 `;
 
-const BookListWrapper = styled.div``;
+const BookListWrapper = styled.div`
+  width: 90%;
+`;

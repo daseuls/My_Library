@@ -152,14 +152,18 @@ const Thumbnail = styled.img`
 
 const BookInfoWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  /* justify-content: flex-end; */
   margin-bottom: 2rem;
 `;
 
-const TitleWrapper = styled.div``;
+const TitleWrapper = styled.div`
+  margin-bottom: 0.5rem;
+`;
 const Title = styled.p`
   margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
 `;
 
 const Author = styled.p``;
