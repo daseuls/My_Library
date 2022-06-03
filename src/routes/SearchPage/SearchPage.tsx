@@ -1,19 +1,54 @@
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import { getBookList } from "../../services/fetchData";
 import styled from "styled-components";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect, useRef, useCallback } from "react";
 import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
+import Loading from "../../components/Loading";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
   const [inputValaue, setInputValue] = useState("");
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  const parentObservedTarget = useRef<HTMLElement>(null);
 
-  const { data } = useQuery(["book", keyword], () => getBookList(keyword, "accuracy"), {
-    enabled: !!keyword,
-    refetchOnWindowFocus: false,
-    staleTime: 10000,
-  });
+  const { data, fetchNextPage, status } = useInfiniteQuery(
+    ["booklist", keyword],
+    ({ pageParam = 1 }) => getBookList(keyword, "accuracy", pageParam),
+    {
+      enabled: !!keyword,
+      refetchOnWindowFocus: false,
+      staleTime: 10000,
+      getNextPageParam: (lastPage) => {
+        return lastPage.config.params.page + 1;
+      },
+    }
+  );
+
+  const flattenedData = data?.pages.map((el) => el.data.documents).flat(1);
+
+  const handleObserver: IntersectionObserverCallback = useCallback(
+    (entry) => {
+      if (entry[0].isIntersecting) {
+        setTimeout(() => {
+          fetchNextPage();
+        }, 1000);
+      }
+    },
+    [fetchNextPage]
+  );
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (target) {
+      observer = new IntersectionObserver(handleObserver, {
+        root: parentObservedTarget.current,
+        threshold: 1,
+      });
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [handleObserver, target]);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
@@ -25,15 +60,24 @@ const SearchPage = () => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper ref={parentObservedTarget}>
       <SearchForm onSubmit={onSubmitForm}>
         <Input onChange={onChangeInput} name="title" placeholder="서재에 등록하고 싶은 책을 검색하세요 !" />
       </SearchForm>
-      <ListWrapper>
-        {data?.data.documents.map((bookItem: IBookItem) => (
-          <BookItem key={bookItem.isbn} bookItem={bookItem} />
-        ))}
-      </ListWrapper>
+      {!flattenedData || flattenedData.length === 0 ? (
+        <div>검색결과가 없습니다</div>
+      ) : (
+        <ListWrapper>
+          {flattenedData?.map((bookItem: IBookItem, i) => (
+            <BookItem key={`${bookItem.isbn}${i}`} bookItem={bookItem} />
+          ))}
+          {status === "loading" ? null : (
+            <LoadingWrapper ref={setTarget}>
+              <Loading />
+            </LoadingWrapper>
+          )}
+        </ListWrapper>
+      )}
     </Wrapper>
   );
 };
@@ -69,4 +113,10 @@ const ListWrapper = styled.ul`
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 2rem 0;
+`;
+
+const LoadingWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
