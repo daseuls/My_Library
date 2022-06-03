@@ -1,12 +1,11 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { libraryBookListState } from "../../states/state";
 import { IBookItem } from "../../types";
+import { getLocalData } from "../../utils/getLocalData";
 
 const CalendarPage = () => {
-  const libraryBookList = useRecoilValue(libraryBookListState);
+  const libraryBookList = getLocalData("library");
   const calendarBookList = libraryBookList?.map((item: IBookItem) => {
     return { title: item.title, date: item.startDate, end: item.endDate };
   });
@@ -33,5 +32,5 @@ const CalendarPage = () => {
 export default CalendarPage;
 
 const CalendarWrapper = styled.main`
-  margin: 5rem 2rem 0;
+  padding: 5rem 2rem 0;
 `;

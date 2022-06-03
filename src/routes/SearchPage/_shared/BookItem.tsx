@@ -9,9 +9,6 @@ interface IProps {
   bookItem: IBookItem;
 }
 
-// TODO: isAddedLibrary에 따른 버튼 스타일링
-// TODO: 함수명, 변수명 직관적으로 바꾸기
-
 const BookItem = ({ bookItem }: IProps) => {
   const { thumbnail } = bookItem;
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -2,8 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
-import { useRecoilState } from "recoil";
-import { libraryBookListState, wishListState } from "../../../states/state";
 import { IBookItem } from "../../../types";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
@@ -11,6 +9,7 @@ import { IoBookOutline, IoBook } from "react-icons/io5";
 
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
+import { getLocalData } from "../../../utils/getLocalData";
 
 interface IProps {
   bookItem: IBookItem;
@@ -20,12 +19,13 @@ const ModalContents = ({ bookItem }: IProps) => {
   const { title, thumbnail, authors } = bookItem;
 
   const [date, setDate] = useState({ startDate: new Date(), endDate: null });
-  const [libraryBookList, setLibraryBookList] = useRecoilState(libraryBookListState);
-  const [wishList, setWishList] = useRecoilState(wishListState);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  const isAddedLibrary = libraryBookList.map((el) => el.isbn).includes(bookItem.isbn);
-  const isAddedWishList = wishList.map((el) => el.isbn).includes(bookItem.isbn);
+  const libraryBookList = getLocalData("library");
+  const wishList = getLocalData("wish");
+
+  const isAddedLibrary = libraryBookList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
+  const isAddedWishList = wishList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
 
   const onClickAddBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -38,15 +38,13 @@ const ModalContents = ({ bookItem }: IProps) => {
 
     if (!end) return;
     if (isAddedLibrary) {
-      const changedDateItem = libraryBookList.map((el) =>
+      const changedDateItem = libraryBookList.map((el: IBookItem) =>
         el.isbn === bookItem.isbn ? { ...el, startDate: start, endDate: end } : el
       );
       localStorage.setItem("library", JSON.stringify(changedDateItem));
-      setLibraryBookList(changedDateItem);
     } else {
       const addedList = [...libraryBookList, { ...bookItem, ...{ startDate: start, endDate: end } }];
       localStorage.setItem("library", JSON.stringify(addedList));
-      setLibraryBookList(addedList);
     }
   };
 
@@ -57,9 +55,8 @@ const ModalContents = ({ bookItem }: IProps) => {
   const handleRemoveBookItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (isAddedLibrary) {
-      const filteredList = libraryBookList.filter((el) => el.isbn !== bookItem.isbn);
+      const filteredList = libraryBookList.filter((el: IBookItem) => el.isbn !== bookItem.isbn);
       localStorage.setItem("library", JSON.stringify(filteredList));
-      setLibraryBookList(filteredList);
     } else {
       setIsDatePickerOpen(true);
     }
@@ -67,13 +64,11 @@ const ModalContents = ({ bookItem }: IProps) => {
 
   const handleWishListItem = () => {
     if (isAddedWishList) {
-      const filteredWishItem = wishList.filter((el) => el.isbn !== bookItem.isbn);
+      const filteredWishItem = wishList.filter((el: IBookItem) => el.isbn !== bookItem.isbn);
       localStorage.setItem("wish", JSON.stringify(filteredWishItem));
-      setWishList(filteredWishItem);
     } else {
       const wishItem = [...wishList, bookItem];
       localStorage.setItem("wish", JSON.stringify(wishItem));
-      setWishList(wishItem);
     }
   };
 

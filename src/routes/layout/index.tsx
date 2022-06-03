@@ -1,4 +1,3 @@
-import React, { useRef, RefObject, ReactDOM } from "react";
 import { Outlet } from "react-router-dom";
 import Tab from "../../components/Tab";
 import styled from "styled-components";
@@ -18,7 +17,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   width: 35rem;
   height: 73vh;
   min-height: 60rem;

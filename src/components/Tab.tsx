@@ -1,22 +1,23 @@
 import styled from "styled-components";
 import { IoLibraryOutline, IoSearchOutline, IoCalendarClearOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Tab = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const navigatePage = (route: string) => {
     navigate(route);
   };
   return (
     <Wrapper>
-      <IconWrapper onClick={() => navigatePage("/")}>
+      <IconWrapper onClick={() => navigatePage("/")} isLocate={pathname === "/"}>
         <IoSearchOutline size={23} />
       </IconWrapper>
-      <IconWrapper onClick={() => navigatePage("/library")}>
+      <IconWrapper onClick={() => navigatePage("/library")} isLocate={pathname === "/library"}>
         <IoLibraryOutline size={23} />
       </IconWrapper>
-      <IconWrapper onClick={() => navigatePage("/calendar")}>
+      <IconWrapper onClick={() => navigatePage("/calendar")} isLocate={pathname === "/calendar"}>
         <IoCalendarClearOutline size={23} />
       </IconWrapper>
     </Wrapper>
@@ -36,6 +37,10 @@ const Wrapper = styled.div`
   border-radius: 5rem;
 `;
 
-const IconWrapper = styled.div`
+const IconWrapper = styled.div<{ isLocate: boolean }>`
   cursor: pointer;
+  border-bottom: ${(props) => (props.isLocate ? "1.5px" : "0px")} solid black;
+  height: 2.7rem;
+  translate: all 1s ease;
+  margin: 0 0.5rem;
 `;
