@@ -1,38 +1,19 @@
 import { useQuery } from "react-query";
 import { getBookList } from "../../services/fetchData";
 import styled from "styled-components";
-import { useState, ChangeEvent, FormEvent, FormEventHandler, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { libraryBookListState, wishListState } from "../../states/state";
-import { useNavigate } from "react-router-dom";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
   const [inputValaue, setInputValue] = useState("");
-  const setLibraryBookList = useSetRecoilState(libraryBookListState);
-  const setWishList = useSetRecoilState(wishListState);
 
   const { data } = useQuery(["book", keyword], () => getBookList(keyword, "accuracy"), {
     enabled: !!keyword,
     refetchOnWindowFocus: false,
     staleTime: 10000,
   });
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const localLibraryData = localStorage.getItem("library");
-    const localWishListData = localStorage.getItem("wish");
-
-    if (localLibraryData) {
-      setLibraryBookList(JSON.parse(localLibraryData));
-    }
-    if (localWishListData) {
-      setWishList(JSON.parse(localWishListData));
-    }
-  }, [setLibraryBookList, setWishList]);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
@@ -52,9 +33,6 @@ const SearchPage = () => {
         {data?.data.documents.map((bookItem: IBookItem) => (
           <BookItem key={bookItem.isbn} bookItem={bookItem} />
         ))}
-        <button onClick={() => navigate("/library")} type="button">
-          버튼
-        </button>
       </ListWrapper>
     </Wrapper>
   );
@@ -87,11 +65,8 @@ const Input = styled.input`
 `;
 
 const ListWrapper = styled.ul`
-  /* background-color: yellow; */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 2rem 0;
 `;
-
-const SubmitBtn = styled.button``;

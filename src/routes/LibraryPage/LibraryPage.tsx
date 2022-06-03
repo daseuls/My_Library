@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { libraryBookListState, wishListState } from "../../states/state";
+import { IBookItem } from "../../types";
+import { getLocalData } from "../../utils/getLocalData";
 import LibraryBookList from "./_shared/LibraryBookItem";
 
 const LibraryPage = () => {
-  const [libraryBookList, setLibraryBookList] = useRecoilState(libraryBookListState);
-  const [wishBookList, setWishBookList] = useRecoilState(wishListState);
   const [isLibrary, setIsLibrary] = useState(true);
+
+  const libraryBookList = getLocalData("library");
+  const wishBookList = getLocalData("wish");
 
   const handleCategory = (bool: boolean) => {
     setIsLibrary(bool);
@@ -20,13 +21,13 @@ const LibraryPage = () => {
       </CategoryWrapper>
       {isLibrary ? (
         <BookListWrapper>
-          {libraryBookList.map((bookItem) => (
+          {libraryBookList.map((bookItem: IBookItem) => (
             <LibraryBookList key={bookItem.isbn} bookItem={bookItem} />
           ))}
         </BookListWrapper>
       ) : (
         <BookListWrapper>
-          {wishBookList.map((bookItem) => (
+          {wishBookList.map((bookItem: IBookItem) => (
             <LibraryBookList key={bookItem.isbn} bookItem={bookItem} />
           ))}
         </BookListWrapper>
@@ -39,18 +40,17 @@ export default LibraryPage;
 
 const Wrapper = styled.main`
   display: flex;
-
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 87%;
   overflow: auto;
+  padding: 2rem 3rem 0;
 `;
 
 const CategoryWrapper = styled.div`
   display: flex;
   width: 100%;
-  /* align-items: center; */
   justify-content: space-around;
   margin-bottom: 2rem;
 `;

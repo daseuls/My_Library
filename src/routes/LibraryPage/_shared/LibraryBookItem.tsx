@@ -23,8 +23,13 @@ export default LibraryBookList;
 
 const Wrapper = styled.div`
   display: flex;
+  border: 1px solid black;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  margin-bottom: 0.5rem;
 `;
 
 const Img = styled.img`
-  width: 5rem;
+  width: 4rem;
+  border: 1px solid black;
 `;
