@@ -69,6 +69,7 @@ const SearchPage = () => {
       ) : (
         <ListWrapper>
           {flattenedData?.map((bookItem: IBookItem, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <BookItem key={`${bookItem.isbn}${i}`} bookItem={bookItem} />
           ))}
           {status === "loading" ? null : (
