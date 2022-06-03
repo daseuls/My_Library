@@ -8,6 +8,7 @@ const Modal = ({ children }: IProps) => {
   const onClickModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
+
   return (
     <Wrapper onClick={onClickModal}>
       <ModalWrapper>{children}</ModalWrapper>
@@ -20,7 +21,8 @@ export default Modal;
 const Wrapper = styled.div``;
 
 const ModalWrapper = styled.div`
-  background-color: yellow;
   width: 25rem;
   height: 35rem;
+  background-color: yellow;
+  border-radius: 3rem;
 `;

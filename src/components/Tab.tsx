@@ -12,13 +12,13 @@ const Tab = () => {
   return (
     <Wrapper>
       <IconWrapper onClick={() => navigatePage("/")} isLocate={pathname === "/"}>
-        <IoSearchOutline size={23} />
+        <IoSearchOutline size={18} color="#767C77" />
       </IconWrapper>
       <IconWrapper onClick={() => navigatePage("/library")} isLocate={pathname === "/library"}>
-        <IoLibraryOutline size={23} />
+        <IoLibraryOutline size={18} color="#767C77" />
       </IconWrapper>
       <IconWrapper onClick={() => navigatePage("/calendar")} isLocate={pathname === "/calendar"}>
-        <IoCalendarClearOutline size={23} />
+        <IoCalendarClearOutline size={18} color="#767C77" />
       </IconWrapper>
     </Wrapper>
   );
@@ -30,16 +30,16 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 3.5rem;
-  background-color: pink;
-  height: 13%;
+  padding: 0 2rem;
+  background-color: #ffe6e6;
+  height: 12%;
   width: 100%;
-  border-radius: 5rem;
+  border-radius: 2.5rem;
 `;
 
 const IconWrapper = styled.div<{ isLocate: boolean }>`
   cursor: pointer;
-  border-bottom: ${(props) => (props.isLocate ? "1.5px" : "0px")} solid black;
+  border-bottom: ${(props) => (props.isLocate ? "1.5px" : "0px")} solid #767c77;
   height: 2.7rem;
   translate: all 1s ease;
   margin: 0 0.5rem;

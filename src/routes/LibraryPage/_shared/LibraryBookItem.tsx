@@ -23,7 +23,9 @@ export default LibraryBookList;
 
 const Wrapper = styled.div`
   display: flex;
-  border: 1px solid black;
+  border: 1px solid #393b44;
+  /* border: 1px solid black; */
+
   padding: 1rem 2rem;
   border-radius: 25px;
   margin-bottom: 0.5rem;

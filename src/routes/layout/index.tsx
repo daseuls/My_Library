@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   width: 35rem;
   height: 73vh;
   min-height: 60rem;
-  border-radius: 5rem;
-  background-color: white;
+  border-radius: 2.5rem;
+  background-color: #d2f3e080;
   overflow: hidden;
 `;
