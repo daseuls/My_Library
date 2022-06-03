@@ -4,12 +4,14 @@ import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import { IBookItem } from "../../../types";
 import { AiTwotoneCalendar } from "react-icons/ai";
-import { BsHeart } from "react-icons/bs";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { IoBookOutline, IoBook } from "react-icons/io5";
 
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import { getLocalData } from "../../../utils/getLocalData";
+import { useRecoilState } from "recoil";
+import { libraryBookListState, wishListState } from "../../../states/state";
 
 interface IProps {
   bookItem: IBookItem;
@@ -18,11 +20,11 @@ interface IProps {
 const ModalContents = ({ bookItem }: IProps) => {
   const { title, thumbnail, authors } = bookItem;
 
+  const [libraryBookList, setLibraryList] = useRecoilState(libraryBookListState);
+  const [wishList, setWishList] = useRecoilState(wishListState);
+
   const [date, setDate] = useState({ startDate: new Date(), endDate: null });
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-
-  const libraryBookList = getLocalData("library");
-  const wishList = getLocalData("wish");
 
   const isAddedLibrary = libraryBookList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
   const isAddedWishList = wishList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
@@ -42,9 +44,11 @@ const ModalContents = ({ bookItem }: IProps) => {
         el.isbn === bookItem.isbn ? { ...el, startDate: start, endDate: end } : el
       );
       localStorage.setItem("library", JSON.stringify(changedDateItem));
+      setLibraryList(changedDateItem);
     } else {
       const addedList = [...libraryBookList, { ...bookItem, ...{ startDate: start, endDate: end } }];
       localStorage.setItem("library", JSON.stringify(addedList));
+      setLibraryList(addedList);
     }
   };
 
@@ -52,11 +56,12 @@ const ModalContents = ({ bookItem }: IProps) => {
     setIsDatePickerOpen(false);
   };
 
-  const handleRemoveBookItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleRemoveBookItem = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (isAddedLibrary) {
       const filteredList = libraryBookList.filter((el: IBookItem) => el.isbn !== bookItem.isbn);
       localStorage.setItem("library", JSON.stringify(filteredList));
+      setLibraryList(filteredList);
     } else {
       setIsDatePickerOpen(true);
     }
@@ -66,9 +71,11 @@ const ModalContents = ({ bookItem }: IProps) => {
     if (isAddedWishList) {
       const filteredWishItem = wishList.filter((el: IBookItem) => el.isbn !== bookItem.isbn);
       localStorage.setItem("wish", JSON.stringify(filteredWishItem));
+      setWishList(filteredWishItem);
     } else {
       const wishItem = [...wishList, bookItem];
       localStorage.setItem("wish", JSON.stringify(wishItem));
+      setWishList(wishItem);
     }
   };
 
@@ -84,21 +91,27 @@ const ModalContents = ({ bookItem }: IProps) => {
           ))}
         </TitleWrapper>
       </BookInfoWrapper>
-      <AddWishItem onClick={handleWishListItem}>
-        <BsHeart size={19} />
-        <div>위시리스트에 추가하기</div>
-      </AddWishItem>
-
-      {isAddedLibrary ? (
-        <div>
-          <IoBook size={20} />
-          <SaveHandleBtn onClick={handleRemoveBookItem}>내 서재에서 삭제하기</SaveHandleBtn>
-        </div>
+      {isAddedWishList ? (
+        <HandleListWrapper onClick={handleWishListItem}>
+          <BsHeartFill size={19} />
+          <AddDeleteText>위시리스트에 삭제하기</AddDeleteText>
+        </HandleListWrapper>
       ) : (
-        <div>
+        <HandleListWrapper onClick={handleWishListItem}>
+          <BsHeart size={19} />
+          <AddDeleteText>위시리스트에 추가하기</AddDeleteText>
+        </HandleListWrapper>
+      )}
+      {isAddedLibrary ? (
+        <HandleListWrapper onClick={handleRemoveBookItem}>
+          <IoBook size={20} />
+          <AddDeleteText>내 서재에서 삭제하기</AddDeleteText>
+        </HandleListWrapper>
+      ) : (
+        <HandleListWrapper onClick={handleRemoveBookItem}>
           <IoBookOutline size={20} />
-          <SaveHandleBtn onClick={handleRemoveBookItem}>내 서재에 추가하기</SaveHandleBtn>
-        </div>
+          <AddDeleteText>내 서재에 추가하기</AddDeleteText>
+        </HandleListWrapper>
       )}
 
       {isDatePickerOpen && (
@@ -166,11 +179,19 @@ const EndDate = styled.p`
   padding: 0.5rem;
   border-radius: 2rem;
 `;
-const SaveHandleBtn = styled.button``;
 
 const DateWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const AddWishItem = styled.div``;
+const HandleListWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const AddDeleteText = styled.p`
+  font-size: 1.2rem;
+  margin-left: 1rem;
+`;

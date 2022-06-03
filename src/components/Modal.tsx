@@ -22,7 +22,8 @@ const Wrapper = styled.div``;
 
 const ModalWrapper = styled.div`
   width: 25rem;
-  height: 35rem;
-  background-color: yellow;
-  border-radius: 3rem;
+  height: 32rem;
+  background-color: #f3f8ff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 2rem;
 `;

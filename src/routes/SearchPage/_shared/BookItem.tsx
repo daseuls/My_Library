@@ -42,7 +42,7 @@ export default BookItem;
 const Wrapper = styled.div`
   cursor: pointer;
   margin-bottom: 1rem;
-  border: 1px solid #393b44;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 3px -1px, rgba(0, 0, 0, 0.06) 0px 1px 4px -1px;
 `;
 
 const Thumbnail = styled.img`
