@@ -12,10 +12,13 @@ import dayjs from "dayjs";
 import { getLocalData } from "../../../utils/getLocalData";
 import { useRecoilState } from "recoil";
 import { libraryBookListState, wishListState } from "../../../states/state";
+import ColorItem from "./ColorItem";
 
 interface IProps {
   bookItem: IBookItem;
 }
+
+const COLORS = ["#F2D1D1", "#C2DED1", "#F0D9FF", "#FFF89A", "#9AD0EC"];
 
 const ModalContents = ({ bookItem }: IProps) => {
   const { title, thumbnail, authors } = bookItem;
@@ -24,6 +27,7 @@ const ModalContents = ({ bookItem }: IProps) => {
   const [wishList, setWishList] = useRecoilState(wishListState);
 
   const [date, setDate] = useState({ startDate: new Date(), endDate: null });
+
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const isAddedLibrary = libraryBookList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
@@ -116,6 +120,11 @@ const ModalContents = ({ bookItem }: IProps) => {
 
       {isDatePickerOpen && (
         <PickerWrapper onClick={(e) => e.stopPropagation()}>
+          <ColorPicker>
+            {COLORS.map((color) => (
+              <ColorItem key={color} color={color} />
+            ))}
+          </ColorPicker>
           <DateWrapper>
             <DatePickerIcon onClick={onClickAddBtn}>
               <AiTwotoneCalendar size={14} color="#3366FF" />
@@ -198,4 +207,8 @@ const HandleListWrapper = styled.div`
 const AddDeleteText = styled.p`
   font-size: 1.2rem;
   margin-left: 1rem;
+`;
+
+const ColorPicker = styled.div`
+  display: flex;
 `;
