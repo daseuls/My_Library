@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getBookList } from "../../services/fetchData";
 import styled from "styled-components";
-import { useState, ChangeEvent, FormEvent, FormEventHandler, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
 

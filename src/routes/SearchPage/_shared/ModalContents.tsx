@@ -79,6 +79,7 @@ const ModalContents = ({ bookItem }: IProps) => {
         <TitleWrapper>
           <Title>{title}</Title>
           {authors?.map((author, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <Author key={`${author}${i}`}>{author}</Author>
           ))}
         </TitleWrapper>
