@@ -7,7 +7,7 @@ import { getLocalData } from "../../utils/getLocalData";
 const CalendarPage = () => {
   const libraryBookList = getLocalData("library");
   const calendarBookList = libraryBookList?.map((item: IBookItem) => {
-    return { title: item.title, date: item.startDate, end: item.endDate };
+    return { title: item.title, date: item.startDate, end: item.endDate, color: item.color };
   });
 
   const renderEventContent = (eventInfo: any) => {
