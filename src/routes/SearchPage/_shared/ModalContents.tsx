@@ -27,7 +27,7 @@ const ModalContents = ({ bookItem }: IProps) => {
   const [wishList, setWishList] = useRecoilState(wishListState);
 
   const [date, setDate] = useState({ startDate: new Date(), endDate: null });
-
+  const [color, setColor] = useState(COLORS[0]);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const isAddedLibrary = libraryBookList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
@@ -38,6 +38,7 @@ const ModalContents = ({ bookItem }: IProps) => {
     setIsDatePickerOpen((prev) => !prev);
   };
 
+  console.log(color);
   const onChangeDate = (dates: any) => {
     const [start, end] = dates;
     setDate({ startDate: start, endDate: end });
@@ -45,16 +46,18 @@ const ModalContents = ({ bookItem }: IProps) => {
     if (!end) return;
     if (isAddedLibrary) {
       const changedDateItem = libraryBookList.map((el: IBookItem) =>
-        el.isbn === bookItem.isbn ? { ...el, startDate: start, endDate: end } : el
+        el.isbn === bookItem.isbn ? { ...el, startDate: start, endDate: end, color } : el
       );
       localStorage.setItem("library", JSON.stringify(changedDateItem));
       setLibraryList(changedDateItem);
     } else {
-      const addedList = [...libraryBookList, { ...bookItem, ...{ startDate: start, endDate: end } }];
+      const addedList = [...libraryBookList, { ...bookItem, ...{ startDate: start, endDate: end, color } }];
       localStorage.setItem("library", JSON.stringify(addedList));
       setLibraryList(addedList);
     }
   };
+
+  console.log(libraryBookList);
 
   const handleCloseDatePicker = () => {
     setIsDatePickerOpen(false);
@@ -121,8 +124,8 @@ const ModalContents = ({ bookItem }: IProps) => {
       {isDatePickerOpen && (
         <PickerWrapper onClick={(e) => e.stopPropagation()}>
           <ColorPicker>
-            {COLORS.map((color) => (
-              <ColorItem key={color} color={color} />
+            {COLORS.map((item) => (
+              <ColorItem color={color} setColor={setColor} key={item} item={item} />
             ))}
           </ColorPicker>
           <DateWrapper>

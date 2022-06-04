@@ -5,6 +5,7 @@ export interface IBookItem {
   authors: string[];
   startDate?: string;
   endDate?: string;
+  color: string;
 }
 
 export interface IParams {
