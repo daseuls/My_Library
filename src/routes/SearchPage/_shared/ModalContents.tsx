@@ -9,7 +9,7 @@ import { IoBookOutline, IoBook } from "react-icons/io5";
 
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
-import { getLocalData } from "../../../utils/getLocalData";
+
 import { useRecoilState } from "recoil";
 import { libraryBookListState, wishListState } from "../../../states/state";
 import ColorItem from "./ColorItem";
@@ -37,27 +37,29 @@ const ModalContents = ({ bookItem }: IProps) => {
     e.stopPropagation();
     setIsDatePickerOpen((prev) => !prev);
   };
-
-  console.log(color);
+  console.log(libraryBookList);
   const onChangeDate = (dates: any) => {
     const [start, end] = dates;
     setDate({ startDate: start, endDate: end });
+  };
 
-    if (!end) return;
+  const onClickSaveBtn = () => {
+    if (!date.endDate) return;
     if (isAddedLibrary) {
       const changedDateItem = libraryBookList.map((el: IBookItem) =>
-        el.isbn === bookItem.isbn ? { ...el, startDate: start, endDate: end, color } : el
+        el.isbn === bookItem.isbn ? { ...el, startDate: date.startDate, endDate: date.endDate, color } : el
       );
       localStorage.setItem("library", JSON.stringify(changedDateItem));
       setLibraryList(changedDateItem);
     } else {
-      const addedList = [...libraryBookList, { ...bookItem, ...{ startDate: start, endDate: end, color } }];
+      const addedList = [
+        ...libraryBookList,
+        { ...bookItem, ...{ startDate: date.startDate, endDate: date.endDate, color } },
+      ];
       localStorage.setItem("library", JSON.stringify(addedList));
       setLibraryList(addedList);
     }
   };
-
-  console.log(libraryBookList);
 
   const handleCloseDatePicker = () => {
     setIsDatePickerOpen(false);
@@ -123,27 +125,32 @@ const ModalContents = ({ bookItem }: IProps) => {
 
       {isDatePickerOpen && (
         <PickerWrapper onClick={(e) => e.stopPropagation()}>
-          <ColorPicker>
-            {COLORS.map((item) => (
-              <ColorItem color={color} setColor={setColor} key={item} item={item} />
-            ))}
-          </ColorPicker>
           <DateWrapper>
-            <DatePickerIcon onClick={onClickAddBtn}>
-              <AiTwotoneCalendar size={14} color="#3366FF" />
-            </DatePickerIcon>
-            <StartDate>{dayjs(date.startDate).format("YYYY년 MM월 DD일")}</StartDate>
-            <EndDate>{dayjs(date.endDate).format("YYYY년 MM월 DD일")}</EndDate>
+            <ColorPicker>
+              {COLORS.map((item) => (
+                <ColorItem color={color} setColor={setColor} key={item} item={item} />
+              ))}
+            </ColorPicker>
+
+            <DateDetail color={color}>
+              <SelectedDate>
+                <StartDate>{dayjs(date.startDate).format("YYYY년 MM월 DD일")}</StartDate>
+                <EndDate>{date.endDate ? dayjs(date.endDate).format("YYYY년 MM월 DD일") : "-년 -월 -일"}</EndDate>
+              </SelectedDate>
+              <DatePicker
+                selected={date.startDate}
+                onChange={onChangeDate}
+                startDate={date.startDate}
+                endDate={date.endDate}
+                locale={ko}
+                selectsRange
+                inline
+              />
+            </DateDetail>
+            <SaveBtn onClick={onClickSaveBtn} disabled={!date.endDate}>
+              저장
+            </SaveBtn>
           </DateWrapper>
-          <DatePicker
-            selected={date.startDate}
-            onChange={onChangeDate}
-            startDate={date.startDate}
-            endDate={date.endDate}
-            locale={ko}
-            selectsRange
-            inline
-          />
         </PickerWrapper>
       )}
     </Wrapper>
@@ -158,7 +165,7 @@ const Wrapper = styled.div`
 `;
 
 const Thumbnail = styled.img`
-  width: 7rem;
+  width: 6rem;
   margin-right: 1rem;
 `;
 
@@ -166,7 +173,7 @@ const BookInfoWrapper = styled.div`
   display: flex;
   align-items: flex-end;
   /* justify-content: flex-end; */
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 `;
 
 const TitleWrapper = styled.div`
@@ -188,23 +195,30 @@ const StartDate = styled.p`
   border: 1px solid black;
   padding: 0.5rem;
   border-radius: 2rem;
-  margin: 0 1rem;
+  /* margin: 0 1rem; */
+  width: 50%;
+  margin-right: 0.5rem;
 `;
 const EndDate = styled.p`
   border: 1px solid black;
   padding: 0.5rem;
   border-radius: 2rem;
+  width: 50%;
 `;
 
 const DateWrapper = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  padding: 0.5rem;
+  background-color: yellow;
+  border-radius: 1rem;
 `;
 
 const HandleListWrapper = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-bottom: 0.6rem;
 `;
 
 const AddDeleteText = styled.p`
@@ -214,4 +228,84 @@ const AddDeleteText = styled.p`
 
 const ColorPicker = styled.div`
   display: flex;
+  margin-bottom: 0.5rem;
+`;
+
+const SelectedDate = styled.div`
+  display: flex;
+  margin-bottom: 0.5rem;
+`;
+
+const DateDetail = styled.div<{ color: string }>`
+  margin-bottom: 0.5rem;
+
+  .react-datepicker {
+    border: 1px solid #dddddd;
+    font-size: 0.6rem;
+    border-radius: 1rem;
+  }
+
+  .react-datepicker__header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dddddd;
+    border-top-right-radius: 1rem;
+  }
+
+  .react-datepicker__day--keyboard-selected:hover {
+    border-radius: 2rem;
+    background-color: ${(props) => props.color};
+  }
+
+  .react-datepicker__day--in-range {
+    background-color: ${(props) => props.color};
+  }
+
+  .react-datepicker__navigation-icon::before {
+    border-color: yellow;
+  }
+
+  .react-datepicker__current-month,
+  .react-datepicker-time__header,
+  .react-datepicker-year-header {
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+    color: #393b44;
+  }
+
+  .react-datepicker__day-name {
+    color: #393b44;
+  }
+
+  .react-datepicker__day {
+    color: #393b44;
+  }
+
+  .react-datepicker__day-name,
+  .react-datepicker__day,
+  .react-datepicker__time-name {
+    width: 2.4rem;
+    line-height: 1.5rem;
+  }
+  .react-datepicker__day--selected,
+  .react-datepicker__day--in-selecting-range,
+  .react-datepicker__day--in-range,
+  .react-datepicker__month-text--selected,
+  .react-datepicker__month-text--in-selecting-range,
+  .react-datepicker__month-text--in-range,
+  .react-datepicker__quarter-text--selected,
+  .react-datepicker__quarter-text--in-selecting-range,
+  .react-datepicker__quarter-text--in-range,
+  .react-datepicker__year-text--selected,
+  .react-datepicker__year-text--in-selecting-range,
+  .react-datepicker__year-text--in-range {
+    border-radius: 2rem;
+  }
+`;
+
+const SaveBtn = styled.button`
+  font-weight: 700;
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
 `;

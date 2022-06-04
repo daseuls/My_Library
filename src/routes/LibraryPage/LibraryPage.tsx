@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IBookItem } from "../../types";
 import { getLocalData } from "../../utils/getLocalData";
@@ -13,6 +13,7 @@ const LibraryPage = () => {
   const handleCategory = (bool: boolean) => {
     setIsLibrary(bool);
   };
+
   return (
     <Wrapper>
       <CategoryWrapper>

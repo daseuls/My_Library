@@ -6,12 +6,17 @@ import BookItem from "./_shared/BookItem";
 import { IBookItem } from "../../types";
 import Loading from "../../components/Loading";
 import { BsBook } from "react-icons/bs";
+import { getLocalData } from "../../utils/getLocalData";
+import { useSetRecoilState } from "recoil";
+import { libraryBookListState, wishListState } from "../../states/state";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
   const [inputValaue, setInputValue] = useState("");
   const [target, setTarget] = useState<HTMLDivElement | null>(null);
   const parentObservedTarget = useRef<HTMLElement>(null);
+  const setLibraryBookList = useSetRecoilState(libraryBookListState);
+  const setWishBookList = useSetRecoilState(wishListState);
 
   const { data, fetchNextPage, status } = useInfiniteQuery(
     ["booklist", keyword],
@@ -50,6 +55,13 @@ const SearchPage = () => {
     }
     return () => observer && observer.disconnect();
   }, [handleObserver, target]);
+
+  useEffect(() => {
+    const libraryBookList = getLocalData("library");
+    const wishBookList = getLocalData("wish");
+    setLibraryBookList(libraryBookList);
+    setWishBookList(wishBookList);
+  }, [setLibraryBookList, setWishBookList]);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
