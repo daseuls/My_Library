@@ -3,7 +3,6 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import { IBookItem } from "../../../types";
-import { AiTwotoneCalendar } from "react-icons/ai";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { IoBookOutline, IoBook } from "react-icons/io5";
 
@@ -33,11 +32,6 @@ const ModalContents = ({ bookItem }: IProps) => {
   const isAddedLibrary = libraryBookList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
   const isAddedWishList = wishList.map((el: IBookItem) => el.isbn).includes(bookItem.isbn);
 
-  const onClickAddBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    setIsDatePickerOpen((prev) => !prev);
-  };
-  console.log(libraryBookList);
   const onChangeDate = (dates: any) => {
     const [start, end] = dates;
     setDate({ startDate: start, endDate: end });
@@ -59,6 +53,7 @@ const ModalContents = ({ bookItem }: IProps) => {
       localStorage.setItem("library", JSON.stringify(addedList));
       setLibraryList(addedList);
     }
+    setIsDatePickerOpen((prev) => !prev);
   };
 
   const handleCloseDatePicker = () => {
@@ -160,7 +155,7 @@ export default ModalContents;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 42rem;
   padding: 2rem;
 `;
 
@@ -172,7 +167,6 @@ const Thumbnail = styled.img`
 const BookInfoWrapper = styled.div`
   display: flex;
   align-items: flex-end;
-  /* justify-content: flex-end; */
   margin-bottom: 1.5rem;
 `;
 
@@ -187,18 +181,16 @@ const Title = styled.p`
 
 const Author = styled.p``;
 
-const DatePickerIcon = styled.button``;
-
 const PickerWrapper = styled.div``;
 
 const StartDate = styled.p`
   border: 1px solid black;
   padding: 0.5rem;
   border-radius: 2rem;
-  /* margin: 0 1rem; */
   width: 50%;
   margin-right: 0.5rem;
 `;
+
 const EndDate = styled.p`
   border: 1px solid black;
   padding: 0.5rem;
@@ -210,7 +202,7 @@ const DateWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  background-color: yellow;
+  /* background-color: white; */
   border-radius: 1rem;
 `;
 
@@ -243,10 +235,11 @@ const DateDetail = styled.div<{ color: string }>`
     border: 1px solid #dddddd;
     font-size: 0.6rem;
     border-radius: 1rem;
+    background-color: #f3f8ff;
   }
 
   .react-datepicker__header {
-    background-color: #ffffff;
+    background-color: #f3f8ff;
     border-bottom: 1px solid #dddddd;
     border-top-right-radius: 1rem;
   }
@@ -302,10 +295,14 @@ const DateDetail = styled.div<{ color: string }>`
   }
 `;
 
-const SaveBtn = styled.button`
-  font-weight: 700;
-  border: 1px solid black;
+const SaveBtn = styled.button<{ disabled: boolean }>`
+  border: ${(props) => (props.disabled ? "1px solid #dddddd" : "1px solid #393B44")};
   padding: 0.5rem;
   border-radius: 1rem;
   cursor: pointer;
+  color: ${(props) => (props.disabled ? "#dddddd" : "1px solid #393B44")};
+  transition: 0.3s all ease;
+  :hover {
+    background-color: ${(props) => (props.disabled ? null : "#DEECFC")};
+  }
 `;

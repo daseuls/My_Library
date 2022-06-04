@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { libraryBookListState, wishListState } from "../../states/state";
 import { IBookItem } from "../../types";
 import { getLocalData } from "../../utils/getLocalData";
 import LibraryBookList from "./_shared/LibraryBookItem";
@@ -7,8 +9,15 @@ import LibraryBookList from "./_shared/LibraryBookItem";
 const LibraryPage = () => {
   const [isLibrary, setIsLibrary] = useState(true);
 
-  const libraryBookList = getLocalData("library");
-  const wishBookList = getLocalData("wish");
+  const [libraryBookList, setLibraryBookList] = useRecoilState(libraryBookListState);
+  const [wishBookList, setWishBookList] = useRecoilState(wishListState);
+
+  useEffect(() => {
+    const libraryList = getLocalData("library");
+    const wishList = getLocalData("wish");
+    setLibraryBookList(libraryList);
+    setWishBookList(wishList);
+  }, [setLibraryBookList, setWishBookList]);
 
   const handleCategory = (bool: boolean) => {
     setIsLibrary(bool);
@@ -23,13 +32,13 @@ const LibraryPage = () => {
       {isLibrary ? (
         <BookListWrapper>
           {libraryBookList.map((bookItem: IBookItem) => (
-            <LibraryBookList key={bookItem.isbn} bookItem={bookItem} />
+            <LibraryBookList key={bookItem.isbn} bookItem={bookItem} isLibrary={isLibrary} />
           ))}
         </BookListWrapper>
       ) : (
         <BookListWrapper>
           {wishBookList.map((bookItem: IBookItem) => (
-            <LibraryBookList key={bookItem.isbn} bookItem={bookItem} />
+            <LibraryBookList key={bookItem.isbn} bookItem={bookItem} isLibrary={isLibrary} />
           ))}
         </BookListWrapper>
       )}
@@ -45,12 +54,7 @@ const Wrapper = styled.main`
   align-items: center;
   height: 87%;
   overflow: auto;
-  margin: 2rem 1rem 0.5rem;
-
-  border-bottom-right-radius: 3rem;
-  border-bottom-left-radius: 3rem;
-
-  background-color: white;
+  margin: 4rem 1rem 0.5rem;
 `;
 
 const CategoryWrapper = styled.div`
@@ -64,7 +68,6 @@ const CategoryWrapper = styled.div`
 
 const Category = styled.div`
   cursor: pointer;
-  background-color: yellow;
 `;
 
 const BookListWrapper = styled.div`

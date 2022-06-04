@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 35rem;
-  height: 73vh;
+  height: 75rem;
   min-height: 60rem;
   border-radius: 2.5rem;
   background-color: #d2f3e080;
