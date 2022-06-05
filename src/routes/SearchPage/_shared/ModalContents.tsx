@@ -97,23 +97,23 @@ const ModalContents = ({ bookItem }: IProps) => {
       </BookInfoWrapper>
       {isAddedWishList ? (
         <HandleListWrapper onClick={handleWishListItem}>
-          <BsHeartFill size={19} />
+          <BsHeartFill color="C490E4" size={19} />
           <AddDeleteText>위시리스트에 삭제하기</AddDeleteText>
         </HandleListWrapper>
       ) : (
         <HandleListWrapper onClick={handleWishListItem}>
-          <BsHeart size={19} />
+          <BsHeart color="C490E4" size={19} />
           <AddDeleteText>위시리스트에 추가하기</AddDeleteText>
         </HandleListWrapper>
       )}
       {isAddedLibrary ? (
         <HandleListWrapper onClick={handleRemoveBookItem}>
-          <IoBook size={20} />
+          <IoBook color="5BA19B" size={20} />
           <AddDeleteText>내 서재에서 삭제하기</AddDeleteText>
         </HandleListWrapper>
       ) : (
         <HandleListWrapper onClick={handleRemoveBookItem}>
-          <IoBookOutline size={20} />
+          <IoBookOutline color="5BA19B" size={20} />
           <AddDeleteText>내 서재에 추가하기</AddDeleteText>
         </HandleListWrapper>
       )}
@@ -202,7 +202,6 @@ const DateWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  /* background-color: white; */
   border-radius: 1rem;
 `;
 

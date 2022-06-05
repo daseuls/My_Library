@@ -6,6 +6,7 @@ import Modal from "../../../components/Modal";
 import { AiFillDelete } from "react-icons/ai";
 import { useRecoilState } from "recoil";
 import { libraryBookListState, wishListState } from "../../../states/state";
+import { NO_IMG_URL } from "../../../utils/no_img";
 
 interface IProps {
   bookItem: IBookItem;
@@ -13,7 +14,7 @@ interface IProps {
 }
 
 const LibraryBookList = ({ bookItem, isLibrary }: IProps) => {
-  const { title, thumbnail, startDate, endDate } = bookItem;
+  const { title, thumbnail, startDate, endDate, price } = bookItem;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [libraryBookList, setLibraryList] = useRecoilState(libraryBookListState);
   const [wishList, setWishList] = useRecoilState(wishListState);
@@ -55,11 +56,15 @@ const LibraryBookList = ({ bookItem, isLibrary }: IProps) => {
         </ModalOutside>
       )}
       <Wrapper onClick={handleModalOpen}>
-        <Img src={thumbnail} />
+        <Img src={thumbnail || NO_IMG_URL} />
         <BookInfo>
           <Title>{title}</Title>
-          {isLibrary && (
-            <p>{`${dayjs(startDate).format("YYYY년 MM월 DD일")} - ${dayjs(endDate).format("YYYY년 MM월 DD일")}`}</p>
+          {isLibrary ? (
+            <Date>{`${dayjs(startDate).format("YYYY년 MM월 DD일")} - ${dayjs(endDate).format(
+              "YYYY년 MM월 DD일"
+            )}`}</Date>
+          ) : (
+            <Price>정가 {price?.toLocaleString()}원</Price>
           )}
         </BookInfo>
       </Wrapper>
@@ -87,10 +92,15 @@ const Wrapper = styled.div`
 
 const Img = styled.img`
   width: 4rem;
+  height: 5.8rem;
 `;
 
 const BookInfo = styled.div`
+  width: 100%;
   margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const Title = styled.p`
@@ -150,3 +160,12 @@ const CancelBtn = styled.button`
     background-color: #deecfc;
   }
 `;
+
+const Date = styled.p`
+  border: 1px solid gray;
+  padding: 0.5rem 1rem;
+  width: 90%;
+  border-radius: 1rem;
+`;
+
+const Price = styled.p``;

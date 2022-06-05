@@ -12,13 +12,13 @@ const Tab = () => {
   return (
     <Wrapper>
       <IconWrapper onClick={() => navigatePage("/")} isLocate={pathname === "/"}>
-        <IoSearchOutline size={18} color="#767C77" />
+        <IoSearchOutline size={18} color="767C77" />
       </IconWrapper>
       <IconWrapper onClick={() => navigatePage("/library")} isLocate={pathname === "/library"}>
-        <IoLibraryOutline size={18} color="#767C77" />
+        <IoLibraryOutline size={18} color="767C77" />
       </IconWrapper>
       <IconWrapper onClick={() => navigatePage("/calendar")} isLocate={pathname === "/calendar"}>
-        <IoCalendarClearOutline size={18} color="#767C77" />
+        <IoCalendarClearOutline size={18} color="767C77" />
       </IconWrapper>
     </Wrapper>
   );
