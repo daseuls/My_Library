@@ -82,21 +82,24 @@ const SearchPage = () => {
           </IconWrapper>
         </SearchForm>
       </SearchBarWrapper>
-      {!flattenedData || flattenedData.length === 0 ? (
-        <div>검색결과가 없습니다</div>
-      ) : (
-        <ListWrapper>
-          {flattenedData?.map((bookItem: IBookItem, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <BookItem key={i} bookItem={bookItem} />
-          ))}
-          {status === "loading" ? null : (
-            <LoadingWrapper ref={setTarget}>
-              <Loading />
-            </LoadingWrapper>
-          )}
-        </ListWrapper>
-      )}
+
+      <ListWrapper>
+        {!flattenedData || flattenedData.length === 0 ? (
+          <NoResultText>검색결과가 없습니다</NoResultText>
+        ) : (
+          <>
+            {flattenedData?.map((bookItem: IBookItem, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <BookItem key={i} bookItem={bookItem} />
+            ))}
+            {status === "loading" ? null : (
+              <LoadingWrapper ref={setTarget}>
+                <Loading />
+              </LoadingWrapper>
+            )}
+          </>
+        )}
+      </ListWrapper>
     </Wrapper>
   );
 };
@@ -147,12 +150,18 @@ const ListWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   margin: 8rem 0 0;
   overflow: auto;
+  height: 100%;
 `;
 
 const LoadingWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+
+const NoResultText = styled.p`
+  font-size: 1.2rem;
 `;
