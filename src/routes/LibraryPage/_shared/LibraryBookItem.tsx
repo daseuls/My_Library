@@ -18,7 +18,7 @@ const LibraryBookList = ({ bookItem, isLibrary }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [libraryBookList, setLibraryList] = useRecoilState(libraryBookListState);
   const [wishList, setWishList] = useRecoilState(wishListState);
-  console.log(bookItem);
+
   const onClickModal = () => {
     setIsModalOpen(false);
   };
