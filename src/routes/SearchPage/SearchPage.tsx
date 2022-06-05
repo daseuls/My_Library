@@ -86,7 +86,7 @@ const SearchPage = () => {
         <div>검색결과가 없습니다</div>
       ) : (
         <ListWrapper>
-          {flattenedData?.map((bookItem: IBookItem, i) => (
+          {flattenedData?.map((bookItem: IBookItem) => (
             // eslint-disable-next-line react/no-array-index-key
             <BookItem key={bookItem.title} bookItem={bookItem} />
           ))}
