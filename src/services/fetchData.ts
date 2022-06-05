@@ -17,6 +17,8 @@ export const getBookList = (query: string, sort: string, page: number) => {
       },
     })
     .then((res) => {
+      // eslint-disable-next-line no-console
+      console.log(res);
       return res;
     });
 };
