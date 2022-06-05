@@ -9,7 +9,6 @@ const GlobalStyle = createGlobalStyle`
   margin: 0;
   padding: 0;
   font-family: "InterBold";
-  color: #393B44;
   }
 
 :root{
@@ -22,6 +21,10 @@ const GlobalStyle = createGlobalStyle`
   background-color: #F6F7F8;
   }
   
+
+  p,div,li {
+    color: #393B44;
+  }
 
 button,
 input {

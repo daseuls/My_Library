@@ -26,9 +26,17 @@ const LibraryPage = () => {
   return (
     <Wrapper>
       <CategoryWrapper>
-        <Category onClick={() => handleCategory(true)}>내 서재</Category>
-        <Category onClick={() => handleCategory(false)}>위시 리스트</Category>
+        <Category isLibrary={isLibrary} onClick={() => handleCategory(true)}>
+          내 서재
+        </Category>
+        <Category isLibrary={!isLibrary} onClick={() => handleCategory(false)}>
+          위시 리스트
+        </Category>
       </CategoryWrapper>
+      <TabBarContainer>
+        <TabBar />
+        <TabSlider isLibrary={isLibrary} />
+      </TabBarContainer>
       {isLibrary ? (
         <BookListWrapper>
           {libraryBookList.map((bookItem: IBookItem) => (
@@ -62,14 +70,42 @@ const CategoryWrapper = styled.div`
 
   display: flex;
   width: 100%;
-  justify-content: space-around;
-  margin-bottom: 2rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  /* padding: 0 4rem; */
 `;
 
-const Category = styled.div`
+const Category = styled.div<{ isLibrary: boolean }>`
   cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0 4rem;
+
+  color: ${(props) => (props.isLibrary ? null : "lightgray")};
 `;
 
 const BookListWrapper = styled.div`
   width: 90%;
+`;
+
+const TabBarContainer = styled.div`
+  position: relative;
+  width: 80%;
+  margin-bottom: 2rem;
+`;
+
+const TabBar = styled.div`
+  width: 100%;
+  height: 2.5px;
+  background-color: lightgray;
+`;
+
+const TabSlider = styled.div<{ isLibrary: boolean }>`
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 2.5px;
+  background-color: #6ebfb8;
+  transform: ${(props) => (props.isLibrary ? "translateX(0)" : "translateX(100%)")};
+  transition: all 0.3s ease;
 `;

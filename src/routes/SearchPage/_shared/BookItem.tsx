@@ -4,6 +4,7 @@ import Modal from "../../../components/Modal";
 import { useState } from "react";
 
 import ModalContents from "./ModalContents";
+import { NO_IMG_URL } from "../../../utils/no_img";
 
 interface IProps {
   bookItem: IBookItem;
@@ -31,7 +32,7 @@ const BookItem = ({ bookItem }: IProps) => {
         </ModalOutside>
       )}
       <Wrapper onClick={handleModalOpen}>
-        <Thumbnail src={thumbnail} alt="bookThumbnail" />
+        <Thumbnail src={thumbnail || NO_IMG_URL} alt="bookThumbnail" />
       </Wrapper>
     </>
   );
@@ -47,6 +48,7 @@ const Wrapper = styled.div`
 
 const Thumbnail = styled.img`
   width: 9rem;
+  height: 13rem;
 `;
 
 const ModalOutside = styled.div`
