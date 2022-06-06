@@ -252,8 +252,8 @@ const DateDetail = styled.div<{ color: string }>`
     background-color: ${(props) => props.color};
   }
 
-  .react-datepicker__navigation-icon::before {
-    border-color: yellow;
+  .react-datepicker__navigation-icon {
+    border-color: gray;
   }
 
   .react-datepicker__current-month,

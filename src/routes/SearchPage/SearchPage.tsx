@@ -109,7 +109,6 @@ export default SearchPage;
 const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   width: 100%;
   height: 87%;
@@ -148,8 +147,8 @@ const IconWrapper = styled.div`
 `;
 const ListWrapper = styled.ul`
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   margin: 8rem 0 0;
   overflow: auto;
