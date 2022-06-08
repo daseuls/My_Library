@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
-const BASE_URL = `${PROXY}/search/book`;
+const BASE_URL = "https://cors-anywhere.herokuapp.com/https://dapi.kakao.com/v3/search/book";
 
 axios.defaults.headers.common.Authorization = "KakaoAK 06a99e77ee1303f63fa326248490a3ba";
 
