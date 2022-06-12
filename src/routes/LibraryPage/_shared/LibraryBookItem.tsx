@@ -86,6 +86,7 @@ const Wrapper = styled.div`
   :hover {
     background-color: #a7d7c5;
     transform: scale(1.03);
+    /* z-index: -1;  */
   }
   cursor: pointer;
 `;

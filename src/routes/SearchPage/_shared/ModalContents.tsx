@@ -1,15 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import DatePicker from "react-datepicker";
+import dayjs from "dayjs";
+import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { IBookItem } from "../../../types";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { IoBookOutline, IoBook } from "react-icons/io5";
-
-import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
-
-import { useRecoilState } from "recoil";
 import { libraryBookListState, wishListState } from "../../../states/state";
 import ColorItem from "./ColorItem";
 
@@ -173,6 +171,7 @@ const BookInfoWrapper = styled.div`
 const TitleWrapper = styled.div`
   margin-bottom: 0.5rem;
 `;
+
 const Title = styled.p`
   margin-bottom: 1rem;
   font-size: 1.2rem;
@@ -184,18 +183,18 @@ const Author = styled.p``;
 const PickerWrapper = styled.div``;
 
 const StartDate = styled.p`
-  border: 1px solid black;
-  padding: 0.5rem;
-  border-radius: 2rem;
   width: 50%;
+  padding: 0.5rem;
   margin-right: 0.5rem;
+  border: 1px solid black;
+  border-radius: 2rem;
 `;
 
 const EndDate = styled.p`
-  border: 1px solid black;
-  padding: 0.5rem;
-  border-radius: 2rem;
   width: 50%;
+  padding: 0.5rem;
+  border: 1px solid black;
+  border-radius: 2rem;
 `;
 
 const DateWrapper = styled.div`

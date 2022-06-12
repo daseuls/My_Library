@@ -18,7 +18,9 @@ const Modal = ({ children }: IProps) => {
 
 export default Modal;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  z-index: 100;
+`;
 
 const ModalWrapper = styled.div`
   width: 25rem;

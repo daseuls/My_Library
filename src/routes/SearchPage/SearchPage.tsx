@@ -1,14 +1,14 @@
-import { useInfiniteQuery } from "react-query";
-import { getBookList } from "../../services/fetchData";
-import styled from "styled-components";
 import { useState, ChangeEvent, FormEvent, useEffect, useRef, useCallback } from "react";
-import BookItem from "./_shared/BookItem";
-import { IBookItem } from "../../types";
-import Loading from "../../components/Loading";
-import { BsBook } from "react-icons/bs";
-import { getLocalData } from "../../utils/getLocalData";
+import { useInfiniteQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
+import styled from "styled-components";
+import { BsBook } from "react-icons/bs";
+import Loading from "../../components/Loading";
+import { getBookList } from "../../services/fetchData";
+import { getLocalData } from "../../utils/getLocalData";
 import { libraryBookListState, wishListState } from "../../states/state";
+import { IBookItem } from "../../types";
+import BookItem from "./_shared/BookItem";
 
 const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
@@ -18,7 +18,7 @@ const SearchPage = () => {
   const setLibraryBookList = useSetRecoilState(libraryBookListState);
   const setWishBookList = useSetRecoilState(wishListState);
 
-  const { data, fetchNextPage, status } = useInfiniteQuery(
+  const { data, fetchNextPage, status, isLoading } = useInfiniteQuery(
     ["booklist", keyword],
     ({ pageParam = 1 }) => getBookList(keyword, "accuracy", pageParam),
     {
@@ -107,13 +107,13 @@ const SearchPage = () => {
 export default SearchPage;
 
 const Wrapper = styled.main`
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
   width: 100%;
   height: 87%;
   padding: 1rem 3rem 0;
-  position: relative;
 `;
 
 const SearchBarWrapper = styled.div`
@@ -123,21 +123,21 @@ const SearchBarWrapper = styled.div`
 `;
 
 const SearchForm = styled.form`
-  display: flex;
   position: relative;
-  justify-content: center;
+  display: flex;
   align-items: center;
-  margin-top: 2rem;
+  justify-content: center;
   width: 100%;
+  margin-top: 2rem;
 `;
 
 const Input = styled.input`
-  background-color: #fdfaf6;
-  border: 1px solid #dddddd;
   width: 90%;
   padding: 1rem 2rem;
-  border-radius: 1rem;
   font-size: 1.2rem;
+  background-color: ${({ theme }) => theme.colors.$BACKGROUND};
+  border: 1px solid ${({ theme }) => theme.colors.$BORDER};
+  border-radius: 1rem;
 `;
 
 const IconWrapper = styled.div`
@@ -147,18 +147,18 @@ const IconWrapper = styled.div`
 `;
 const ListWrapper = styled.ul`
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
   margin: 8rem 0 0;
   overflow: auto;
-  height: 100%;
 `;
 
 const LoadingWrapper = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
+  width: 100%;
 `;
 
 const NoResultText = styled.p`

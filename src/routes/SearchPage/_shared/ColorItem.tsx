@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Dispatch } from "react";
+import styled from "styled-components";
 
 interface IProps {
   item: string;
