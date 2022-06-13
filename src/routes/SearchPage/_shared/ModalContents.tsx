@@ -93,29 +93,32 @@ const ModalContents = ({ bookItem }: IProps) => {
           ))}
         </TitleWrapper>
       </BookInfoWrapper>
-      {isAddedWishList ? (
-        <HandleListWrapper onClick={handleWishListItem}>
-          <BsHeartFill color="C490E4" size={19} />
-          <AddDeleteText>위시리스트에 삭제하기</AddDeleteText>
-        </HandleListWrapper>
-      ) : (
-        <HandleListWrapper onClick={handleWishListItem}>
-          <BsHeart color="C490E4" size={19} />
-          <AddDeleteText>위시리스트에 추가하기</AddDeleteText>
-        </HandleListWrapper>
-      )}
-      {isAddedLibrary ? (
-        <HandleListWrapper onClick={handleRemoveBookItem}>
-          <IoBook color="5BA19B" size={20} />
-          <AddDeleteText>내 서재에서 삭제하기</AddDeleteText>
-        </HandleListWrapper>
-      ) : (
-        <HandleListWrapper onClick={handleRemoveBookItem}>
-          <IoBookOutline color="5BA19B" size={20} />
-          <AddDeleteText>내 서재에 추가하기</AddDeleteText>
-        </HandleListWrapper>
-      )}
-
+      <HandleListWrapper onClick={handleWishListItem}>
+        {isAddedWishList ? (
+          <>
+            <BsHeartFill color="C490E4" size={19} />
+            <AddDeleteText>위시리스트에 삭제하기</AddDeleteText>
+          </>
+        ) : (
+          <>
+            <BsHeart color="C490E4" size={19} />
+            <AddDeleteText>위시리스트에 추가하기</AddDeleteText>
+          </>
+        )}
+      </HandleListWrapper>
+      <HandleListWrapper onClick={handleRemoveBookItem}>
+        {isAddedLibrary ? (
+          <>
+            <IoBook color="5BA19B" size={20} />
+            <AddDeleteText>내 서재에서 삭제하기</AddDeleteText>
+          </>
+        ) : (
+          <>
+            <IoBookOutline color="5BA19B" size={20} />
+            <AddDeleteText>내 서재에 추가하기</AddDeleteText>
+          </>
+        )}
+      </HandleListWrapper>
       {isDatePickerOpen && (
         <PickerWrapper onClick={(e) => e.stopPropagation()}>
           <DateWrapper>
