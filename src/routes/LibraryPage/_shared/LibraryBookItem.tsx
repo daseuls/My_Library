@@ -76,19 +76,18 @@ export default LibraryBookList;
 
 const Wrapper = styled.div`
   display: flex;
-  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
   padding: 1rem 2rem;
-  border-radius: 2rem;
   margin-bottom: 1rem;
+  border-radius: 2rem;
   background-color: #f6fbf4;
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
   transition: all 0.3s ease;
+  cursor: pointer;
 
   :hover {
     background-color: #a7d7c5;
     transform: scale(1.03);
-    /* z-index: -1;  */
   }
-  cursor: pointer;
 `;
 
 const Img = styled.img`
@@ -97,26 +96,26 @@ const Img = styled.img`
 `;
 
 const BookInfo = styled.div`
-  width: 100%;
-  margin-left: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
+  margin-left: 1rem;
 `;
 
 const Title = styled.p`
+  margin-bottom: 0.5rem;
   font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
 `;
 
 const ModalOutside = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 `;
@@ -130,20 +129,20 @@ const ModalInsideWrapper = styled.div`
 `;
 
 const ContentsTitle = styled.p`
+  margin: 1rem 0 1.5rem;
   font-size: 1.2rem;
   font-weight: 700;
-  margin: 1rem 0 1.5rem;
 `;
 
 const BtnWrapper = styled.div``;
 
 const AgreeBtn = styled.button`
-  cursor: pointer;
-  border: 1px solid gray;
   padding: 0.7rem 1.5rem;
-  border-radius: 1rem;
   margin-right: 1rem;
+  border: 1px solid gray;
+  border-radius: 1rem;
   transition: 0.3s all ease;
+  cursor: pointer;
 
   :hover {
     background-color: #deecfc;
@@ -151,11 +150,11 @@ const AgreeBtn = styled.button`
 `;
 
 const CancelBtn = styled.button`
-  cursor: pointer;
-  border: 1px solid gray;
   padding: 0.7rem 1.5rem;
+  border: 1px solid gray;
   border-radius: 1rem;
   transition: 0.3s all ease;
+  cursor: pointer;
 
   :hover {
     background-color: #deecfc;
@@ -163,9 +162,9 @@ const CancelBtn = styled.button`
 `;
 
 const Date = styled.p`
-  border: 1px solid gray;
-  padding: 0.5rem 1rem;
   width: 90%;
+  padding: 0.5rem 1rem;
+  border: 1px solid gray;
   border-radius: 1rem;
 `;
 

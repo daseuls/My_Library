@@ -210,13 +210,13 @@ const DateWrapper = styled.div`
 const HandleListWrapper = styled.div`
   display: flex;
   align-items: center;
-  cursor: pointer;
   margin-bottom: 0.6rem;
+  cursor: pointer;
 `;
 
 const AddDeleteText = styled.p`
-  font-size: 1.2rem;
   margin-left: 1rem;
+  font-size: 1.2rem;
 `;
 
 const ColorPicker = styled.div`
@@ -297,11 +297,11 @@ const DateDetail = styled.div<{ color: string }>`
 `;
 
 const SaveBtn = styled.button<{ disabled: boolean }>`
-  border: ${(props) => (props.disabled ? "1px solid #dddddd" : "1px solid #393B44")};
   padding: 0.5rem;
+  color: ${(props) => (props.disabled ? "#dddddd" : "1px solid #393B44")};
+  border: ${(props) => (props.disabled ? "1px solid #dddddd" : "1px solid #393B44")};
   border-radius: 1rem;
   cursor: pointer;
-  color: ${(props) => (props.disabled ? "#dddddd" : "1px solid #393B44")};
   transition: 0.3s all ease;
   :hover {
     background-color: ${(props) => (props.disabled ? null : "#DEECFC")};

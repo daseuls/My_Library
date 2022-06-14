@@ -18,7 +18,7 @@ const SearchPage = () => {
   const setLibraryBookList = useSetRecoilState(libraryBookListState);
   const setWishBookList = useSetRecoilState(wishListState);
 
-  const { data, fetchNextPage, status, isLoading } = useInfiniteQuery(
+  const { data, fetchNextPage, status } = useInfiniteQuery(
     ["booklist", keyword],
     ({ pageParam = 1 }) => getBookList(keyword, "accuracy", pageParam),
     {
