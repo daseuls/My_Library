@@ -15,7 +15,7 @@ interface IProps {
   bookItem: IBookItem;
 }
 
-const COLORS = ["#F2D1D1", "#C2DED1", "#F0D9FF", "#FFF89A", "#9AD0EC"];
+const COLORS = ["#FFAAA7", "#96C7C1", "#E4BAD4", "#F1CA89", "#9AD0EC"];
 
 const ModalContents = ({ bookItem }: IProps) => {
   const { title, thumbnail, authors } = bookItem;

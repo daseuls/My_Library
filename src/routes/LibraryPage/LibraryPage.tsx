@@ -8,7 +8,6 @@ import LibraryBookList from "./_shared/LibraryBookItem";
 
 const LibraryPage = () => {
   const [isLibrary, setIsLibrary] = useState(true);
-
   const [libraryBookList, setLibraryBookList] = useRecoilState(libraryBookListState);
   const [wishBookList, setWishBookList] = useRecoilState(wishListState);
 
@@ -102,7 +101,7 @@ const TabSlider = styled.div<{ isLibrary: boolean }>`
   top: 0;
   width: 50%;
   height: 2.5px;
-  background-color: #6ebfb8;
+  background-color: ${({ theme }) => theme.colors.$SLIDER};
   transform: ${(props) => (props.isLibrary ? "translateX(0)" : "translateX(100%)")};
   transition: all 0.3s ease;
 `;

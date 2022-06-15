@@ -145,6 +145,7 @@ const IconWrapper = styled.div`
   right: 3.7rem;
   top: 1.05rem;
 `;
+
 const ListWrapper = styled.ul`
   display: flex;
   flex-wrap: wrap;

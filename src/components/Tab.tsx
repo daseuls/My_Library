@@ -30,17 +30,17 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  width: 100%;
+  height: 12%;
   padding: 0 2rem;
   background-color: #ffe6e6;
-  height: 12%;
-  width: 100%;
   border-radius: 2.5rem;
 `;
 
 const IconWrapper = styled.div<{ isLocate: boolean }>`
-  cursor: pointer;
-  border-bottom: ${(props) => (props.isLocate ? "1.5px" : "0px")} solid #767c77;
   height: 2.7rem;
-  translate: all 1s ease;
   margin: 0 0.5rem;
+  border-bottom: ${(props) => (props.isLocate ? "1.5px" : "0px")} solid #767c77;
+  translate: all 1s ease;
+  cursor: pointer;
 `;

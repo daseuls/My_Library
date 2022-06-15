@@ -79,13 +79,13 @@ const Wrapper = styled.div`
   padding: 1rem 2rem;
   margin-bottom: 1rem;
   border-radius: 2rem;
-  background-color: #f6fbf4;
-  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+  background-color: ${({ theme }) => theme.colors.$LIST};
+  box-shadow: ${({ theme }) => theme.shadows.$LIST_SHADOWS};
   transition: all 0.3s ease;
   cursor: pointer;
 
   :hover {
-    background-color: #a7d7c5;
+    background-color: ${({ theme }) => theme.colors.$LIST_HOVER};
     transform: scale(1.03);
   }
 `;
@@ -145,7 +145,7 @@ const AgreeBtn = styled.button`
   cursor: pointer;
 
   :hover {
-    background-color: #deecfc;
+    background-color: ${({ theme }) => theme.colors.$AGREEBTN};
   }
 `;
 
@@ -157,7 +157,7 @@ const CancelBtn = styled.button`
   cursor: pointer;
 
   :hover {
-    background-color: #deecfc;
+    background-color: ${({ theme }) => theme.colors.$AGREEBTN};
   }
 `;
 
