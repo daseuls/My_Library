@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "https://dapi.kakao.com/v3/search/book";
 
-axios.defaults.headers.common.Authorization = "KakaoAK 06a99e77ee1303f63fa326248490a3ba";
+axios.defaults.headers.common.Authorization = `KakaoAK ${process.env.REACT_APP_API_KEY}`;
 
 export const getBookList = (query: string, sort: string, page: number) => {
   return axios
