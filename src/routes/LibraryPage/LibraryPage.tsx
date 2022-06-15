@@ -8,7 +8,6 @@ import LibraryBookList from "./_shared/LibraryBookItem";
 
 const LibraryPage = () => {
   const [isLibrary, setIsLibrary] = useState(true);
-
   const [libraryBookList, setLibraryBookList] = useRecoilState(libraryBookListState);
   const [wishBookList, setWishBookList] = useRecoilState(wishListState);
 
@@ -61,27 +60,24 @@ const Wrapper = styled.main`
   flex-direction: column;
   align-items: center;
   height: 87%;
-  overflow: auto;
   margin: 4rem 1rem 0.5rem;
+  overflow: auto;
 `;
 
 const CategoryWrapper = styled.div`
-  border-top-right-radius: 3rem;
-
   display: flex;
-  width: 100%;
   justify-content: center;
+  width: 100%;
   margin-bottom: 1.5rem;
-  /* padding: 0 4rem; */
+  border-top-right-radius: 3rem;
 `;
 
 const Category = styled.div<{ isLibrary: boolean }>`
-  cursor: pointer;
+  padding: 0 4rem;
   font-size: 1.2rem;
   font-weight: 700;
-  padding: 0 4rem;
-
   color: ${(props) => (props.isLibrary ? null : "lightgray")};
+  cursor: pointer;
 `;
 
 const BookListWrapper = styled.div`
@@ -105,7 +101,7 @@ const TabSlider = styled.div<{ isLibrary: boolean }>`
   top: 0;
   width: 50%;
   height: 2.5px;
-  background-color: #6ebfb8;
+  background-color: ${({ theme }) => theme.colors.$SLIDER};
   transform: ${(props) => (props.isLibrary ? "translateX(0)" : "translateX(100%)")};
   transition: all 0.3s ease;
 `;
